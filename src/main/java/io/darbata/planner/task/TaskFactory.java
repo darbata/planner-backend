@@ -1,8 +1,11 @@
 package io.darbata.planner.task;
 
+import org.springframework.stereotype.Component;
+
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 
+@Component
 public class TaskFactory {
 
     public TaskFactory() {}

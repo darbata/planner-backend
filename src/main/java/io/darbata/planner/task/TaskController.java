@@ -1,25 +1,32 @@
 package io.darbata.planner.task;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
 
-    private final TaskRepository taskRepository;
+    private final TaskService taskService;
 
-    public TaskController(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
     }
 
     @PostMapping
-    public TaskModel createTask(@RequestBody TaskModel task) {
+    public ResponseEntity<TaskModel> createTask(@RequestBody TaskModel task) {
         try {
-            return taskRepository.save(task);
+            TaskModel created = taskService.createTask(
+                    task.description(),
+                    task.start(),
+                    task.end()
+            );
+            return ResponseEntity.status(HttpStatus.CREATED).body(created);
         } catch (Exception e) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
