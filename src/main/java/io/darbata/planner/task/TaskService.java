@@ -15,8 +15,8 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public TaskModel createTask(String description, LocalDateTime start, LocalDateTime end) {
-        TaskModel task = taskFactory.create(description, start, end);
+    public Task createTask(String description, LocalDateTime start, LocalDateTime end) {
+        Task task = taskFactory.create(description, start, end);
         task = taskRepository.save(task);
         return task;
     }

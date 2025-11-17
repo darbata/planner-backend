@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
@@ -19,9 +18,9 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskModel> createTask(@RequestBody TaskModel task) {
+    public ResponseEntity<Task> createTask(@RequestBody Task task) {
         try {
-            TaskModel created = taskService.createTask(
+            Task created = taskService.createTask(
                     task.description(),
                     task.start(),
                     task.end()
@@ -37,17 +36,17 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<TaskModel> getAllTasks() {
+    public List<Task> getAllTasks() {
         throw new RuntimeException("Not implemented");
     }
 
     @PutMapping("/{id}")
-    public TaskModel updateTask(@RequestBody TaskModel task, @PathVariable String id) {
+    public Task updateTask(@RequestBody Task task, @PathVariable String id) {
         throw new RuntimeException("Not implemented");
     }
 
     @DeleteMapping("/{id}")
-    public TaskModel deleteTask(@PathVariable String id) {
+    public Task deleteTask(@PathVariable String id) {
         throw new RuntimeException("Not implemented");
     }
 }

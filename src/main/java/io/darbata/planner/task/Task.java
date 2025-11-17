@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 // time blocks
 @Document("tasks")
-public record TaskModel(
+public record Task(
         @Id String id,
         String description,
         LocalDateTime start,

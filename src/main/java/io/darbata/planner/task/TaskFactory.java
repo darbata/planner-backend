@@ -10,7 +10,7 @@ public class TaskFactory {
 
     public TaskFactory() {}
 
-    public TaskModel create(String description, LocalDateTime start, LocalDateTime end) {
+    public Task create(String description, LocalDateTime start, LocalDateTime end) {
         if (start.isAfter(end)) {
             throw new InvalidParameterException("Start must be before end");
         }
@@ -19,6 +19,6 @@ public class TaskFactory {
             throw new InvalidParameterException("Description is empty");
         }
 
-        return new TaskModel("default", description, start, end, LocalDateTime.now(), LocalDateTime.now());
+        return new Task("default", description, start, end, LocalDateTime.now(), LocalDateTime.now());
     }
 }
