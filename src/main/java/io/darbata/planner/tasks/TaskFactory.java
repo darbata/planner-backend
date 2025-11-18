@@ -11,11 +11,11 @@ public class TaskFactory {
 
     public TaskFactory() {}
 
-    public Task create(String description, LocalDate date, Boolean isComplete) {
+    public Task create(String userId, String description, LocalDate date) {
         if (description.isEmpty()) {
-            throw new InvalidParameterException("Description is empty");
+            throw new IllegalArgumentException("Description is empty");
         }
 
-        return new Task("default", description, date, isComplete, LocalDateTime.now(), LocalDateTime.now());
+        return new Task(null, userId, description, date, false, null, null);
     }
 }

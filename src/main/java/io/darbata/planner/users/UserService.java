@@ -25,7 +25,7 @@ public class UserService {
     }
 
     public User updateUser(String id, User user) {
-        User updatedUser = this.userFactory.create(id, user.email(), user.username());
+        User updatedUser = this.userFactory.create(id, user.email(), user.username(), user.createdAt());
         return this.userRepository.save(updatedUser);
     }
 

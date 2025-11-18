@@ -19,9 +19,9 @@ public class TaskController {
 
     // CREATE
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task) {
+    public ResponseEntity<Task> createTask(@RequestBody CreateTaskRequestDTO createTaskRequestDTO) {
         try {
-            Task newTask = taskService.createTask(task);
+            Task newTask = taskService.createTask(createTaskRequestDTO);
             return new ResponseEntity<>(newTask, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

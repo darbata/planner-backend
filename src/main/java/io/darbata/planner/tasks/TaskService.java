@@ -15,8 +15,8 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public Task createTask(Task task) {
-        Task newTask = taskFactory.create(task.description(), task.date(), task.isComplete());
+    public Task createTask(CreateTaskRequestDTO dto) {
+        Task newTask = taskFactory.create(dto.userId(), dto.description(), dto.date());
         return taskRepository.save(newTask);
     }
 
