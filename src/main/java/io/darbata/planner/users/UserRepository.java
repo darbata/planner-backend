@@ -1,8 +1,7 @@
-package io.darbata.planner.task;
+package io.darbata.planner.users;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TaskRepository extends MongoRepository<Task, String> {
-}
+public interface UserRepository extends MongoRepository<User, String> {}

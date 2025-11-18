@@ -1,8 +1,8 @@
-package io.darbata.planner.task;
+package io.darbata.planner.tasks;
 
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Service
 public class TaskService {
@@ -15,10 +15,9 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public Task createTask(String description, LocalDateTime start, LocalDateTime end) {
-        Task task = taskFactory.create(description, start, end);
-        task = taskRepository.save(task);
-        return task;
+    public Task createTask(Task task) {
+        Task newTask = taskFactory.create(task.description(), task.date(), task.isComplete());
+        return taskRepository.save(newTask);
     }
 
 }
