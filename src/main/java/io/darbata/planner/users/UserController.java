@@ -1,8 +1,11 @@
 package io.darbata.planner.users;
 
+import io.darbata.planner.tasks.Task;
+import io.darbata.planner.tasks.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -10,9 +13,11 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final TaskService taskService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TaskService taskService) {
         this.userService = userService;
+        this.taskService = taskService;
     }
 
     @GetMapping("/hello")
@@ -37,6 +42,17 @@ public class UserController {
         try {
             List<User> allUsers = userService.getAllUsers();
             return ResponseEntity.ok(allUsers);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/tasks")
+    public ResponseEntity<List<Task>> getUserTasksByDate(@RequestParam String userId, @RequestParam LocalDate date) {
+        try {
+            List<String> taskIds = userService.getUserTasksIdsByDate(userId, date);
+            List<Task> tasks = taskService.getAllTasksById(taskIds);
+            return ResponseEntity.ok(tasks);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }

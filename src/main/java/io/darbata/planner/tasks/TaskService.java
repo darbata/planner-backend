@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Transactional
@@ -12,12 +13,10 @@ public class TaskService {
 
     private final TaskFactory taskFactory;
     private final TaskRepository taskRepository;
-    private final UserService userService;
 
-    public TaskService(TaskFactory taskFactory, TaskRepository taskRepository, UserService userService) {
+    public TaskService(TaskFactory taskFactory, TaskRepository taskRepository) {
         this.taskFactory = taskFactory;
         this.taskRepository = taskRepository;
-        this.userService = userService;
     }
 
     public Task createTask(CreateTaskRequestDTO dto) {
@@ -28,10 +27,10 @@ public class TaskService {
 
         Task newTask = taskFactory.create(dto.description());
 
-        Task savedTask = taskRepository.insert(newTask);
+        return taskRepository.insert(newTask);
+    }
 
-        userService.giveUserTask(dto.userId(), dto.date(), savedTask.id());
-
-        return savedTask;
+    public List<Task> getAllTasksById(List<String> taskIds) {
+        return taskRepository.findAllById(taskIds);
     }
 }

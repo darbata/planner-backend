@@ -1,10 +1,13 @@
 package io.darbata.planner.users;
 
+import io.darbata.planner.tasks.Task;
+import io.darbata.planner.tasks.TaskService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -37,5 +40,22 @@ public class UserService {
             user.tasks().put(date, dayTasks);
             this.userRepository.save(user);
         });
+    }
+
+    public List<String> getUserTasksIdsByDate(String userId, LocalDate date) {
+        Optional<User> user = this.userRepository.findById(userId);
+
+        if (user.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<String> dayTasks = user.get().tasks().getOrDefault(date, new ArrayList<>());
+
+        if (dayTasks.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return dayTasks;
+
     }
 }
