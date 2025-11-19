@@ -2,6 +2,8 @@ package io.darbata.planner.users;
 
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,21 +17,25 @@ public class UserService {
         this.userFactory = userFactory;
     }
 
-    public User createUser(User user) {
-        User newUser = this.userFactory.create(user.email(), user.username());
-        return this.userRepository.save(newUser);
+    public User createUser(CreateUserDTO dto) {
+        User newUser = this.userFactory.create(dto.email(), dto.username());
+        return this.userRepository.insert(newUser);
     }
 
     public List<User> getAllUsers() {
         return this.userRepository.findAll();
     }
 
-    public User updateUser(String id, User user) {
-        User updatedUser = this.userFactory.create(id, user.email(), user.username(), user.createdAt());
-        return this.userRepository.save(updatedUser);
-    }
-
     public void deleteUser(String id) {
         this.userRepository.deleteById(id);
+    }
+
+    public void giveUserTask(String userId, LocalDate date, String taskId) {
+        this.userRepository.findById(userId).ifPresent(user -> {
+            List<String> dayTasks = user.tasks().getOrDefault(date, new ArrayList<>());
+            dayTasks.add(taskId);
+            user.tasks().put(date, dayTasks);
+            this.userRepository.save(user);
+        });
     }
 }

@@ -11,11 +11,11 @@ public class TaskFactory {
 
     public TaskFactory() {}
 
-    public Task create(String userId, String description, LocalDate date) {
+    public Task create(String description) {
         if (description.isEmpty()) {
             throw new IllegalArgumentException("Description is empty");
         }
 
-        return new Task(null, userId, description, date, false, null, null);
+        return new Task(null, description, false, null, null);
     }
 }

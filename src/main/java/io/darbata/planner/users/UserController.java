@@ -22,9 +22,9 @@ public class UserController {
 
     // CREATE
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody CreateUserDTO dto) {
         try {
-            User newUser = userService.createUser(user);
+            User newUser = userService.createUser(dto);
             return ResponseEntity.ok(newUser);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -43,6 +43,7 @@ public class UserController {
     }
 
     // UPDATE
+/*
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) {
         try {
@@ -52,6 +53,7 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+*/
 
     // DELETE
     @DeleteMapping("/id")
