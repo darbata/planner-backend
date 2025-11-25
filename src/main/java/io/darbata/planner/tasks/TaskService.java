@@ -1,11 +1,13 @@
 package io.darbata.planner.tasks;
 
-import io.darbata.planner.users.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -32,5 +34,19 @@ public class TaskService {
 
     public List<Task> getAllTasksById(List<String> taskIds) {
         return taskRepository.findAllById(taskIds);
+    }
+
+    public Map<LocalDate, List<Task>> getTaskWeekTaskByID(Map<LocalDate, List<String>> weekTasksIds) {
+
+        Map<LocalDate, List<Task>> map = new HashMap<>();
+
+        for (Map.Entry<LocalDate, List<String>> entry : weekTasksIds.entrySet()) {
+            LocalDate date = entry.getKey();
+            List<String> taskIds = entry.getValue();
+
+            map.put(date, taskRepository.findAllById(taskIds));
+        }
+
+        return map;
     }
 }

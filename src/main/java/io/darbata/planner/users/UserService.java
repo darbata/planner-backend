@@ -5,9 +5,7 @@ import io.darbata.planner.tasks.TaskService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -49,13 +47,25 @@ public class UserService {
             return new ArrayList<>();
         }
 
-        List<String> dayTasks = user.get().tasks().getOrDefault(date, new ArrayList<>());
+        return user.get().tasks().getOrDefault(date, new ArrayList<>());
 
-        if (dayTasks.isEmpty()) {
-            return new ArrayList<>();
+    }
+
+    public Map<LocalDate, List<String>> getTaskIdsByWeek(String userId, LocalDate monday) {
+        Optional<User> user = this.userRepository.findById(userId);
+
+        if (user.isEmpty()) {
+            return new HashMap<>();
         }
 
-        return dayTasks;
+        HashMap<LocalDate, List<String>> map = new HashMap<>();
 
+        for (int i = 0; i < 7; i++) {
+            LocalDate date = monday.plusDays(i);
+            List<String> taskIds = user.get().tasks().getOrDefault(date, new ArrayList<>());
+            map.put(date, taskIds);
+        }
+
+        return map;
     }
 }
